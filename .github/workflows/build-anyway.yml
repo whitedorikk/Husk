@@ -39,6 +39,7 @@ jobs:
         run: |
           brew update
           brew install meson ninja pkg-config xcodegen qemu cmake
+          python3 -m pip install --break-system-packages pyyaml
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
