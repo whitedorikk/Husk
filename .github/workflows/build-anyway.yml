@@ -74,6 +74,6 @@ jobs:
             build/Anyway.ipa
             build/Anyway.tipa
             build/logs/
-            /tmp/husk_ipa/build.log
+            build/derived/build.log
           if-no-files-found: warn
           retention-days: 14
