@@ -461,7 +461,7 @@ struct GuestControl: View {
 /// glow in dark mode. The gradients stay behind content; cards and controls remain
 /// readable and keep their native materials.
 private struct AnywayBackdrop: View {
-    @Environment(\\.colorScheme) private var scheme
+    @Environment(\.colorScheme) private var scheme
 
     var body: some View {
         GeometryReader { geometry in
