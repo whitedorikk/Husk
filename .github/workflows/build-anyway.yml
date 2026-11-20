@@ -1,0 +1,77 @@
+name: Build Anyway for iOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - work/launcher-foundation
+    paths:
+      - ".github/workflows/build-anyway.yml"
+      - "src/app/**"
+      - "scripts/**"
+      - "patches/**"
+      - "third_party/**"
+      - "src/rppairing-ios/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: anyway-ios-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # The build scripts compile native ARM64 iOS dependencies and use Xcode.
+    runs-on: macos-14
+    timeout-minutes: 360
+
+    steps:
+      - name: Check out Anyway
+        uses: actions/checkout@v4
+        with:
+          ref: work/launcher-foundation
+          submodules: recursive
+
+      - name: Select Xcode
+        run: |
+          xcode-select -p
+          xcodebuild -version
+
+      - name: Install build tools
+        run: |
+          brew update
+          brew install meson ninja pkg-config xcodegen qemu
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios
+
+      - name: Verify toolchain
+        run: |
+          python3 --version
+          meson --version
+          ninja --version
+          xcodegen --version
+          qemu-img --version
+          rustc --version
+          cargo --version
+
+      - name: Build Anyway IPA and TrollStore package
+        run: |
+          chmod +x scripts/*.sh
+          ./scripts/ci_build.sh build/Anyway.ipa
+
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Anyway-iOS-${{ github.run_number }}
+          path: |
+            build/Anyway.ipa
+            build/Anyway.tipa
+            build/logs/
+            /tmp/husk_ipa/build.log
+          if-no-files-found: warn
+          retention-days: 14
