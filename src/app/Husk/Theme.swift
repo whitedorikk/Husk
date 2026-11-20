@@ -2,7 +2,7 @@
 import SwiftUI
 import UIKit
 
-/// Husk's visual vocabulary.
+/// Anyway's visual vocabulary.
 ///
 /// The app is drawn with the system's own materials: grouped lists on the system's grouped background,
 /// the system's tab bar and navigation bars, its label colours, and an accent the user can change
@@ -80,6 +80,15 @@ enum Theme {
 
     static let cardCorner: CGFloat = 14
     static let rowCorner: CGFloat = 12
+
+    /// The terminal colour of the backdrop, used when artwork fades into the page.
+    static var backdropBase: Color {
+        Color(uiColor: UIColor { traits in
+            traits.userInterfaceStyle == .dark
+                ? UIColor(red: 0.035, green: 0.037, blue: 0.043, alpha: 1)
+                : UIColor.white
+        })
+    }
 
     static var backdrop: some View { AnywayBackdrop().ignoresSafeArea() }
 }
