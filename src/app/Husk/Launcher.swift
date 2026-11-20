@@ -411,7 +411,7 @@ private struct HomeHero: View {
             Color.black.opacity(0.45)
             VStack(spacing: 0) {
                 Spacer(minLength: 0)
-                LinearGradient(colors: [.clear, Console.page], startPoint: .top, endPoint: .bottom)
+                LinearGradient(colors: [.clear, Theme.backdropBase], startPoint: .top, endPoint: .bottom)
                     .frame(height: height * 0.32)
             }
         }
