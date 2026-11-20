@@ -81,7 +81,7 @@ enum Theme {
     static let cardCorner: CGFloat = 14
     static let rowCorner: CGFloat = 12
 
-    static var backdrop: some View { bg.ignoresSafeArea() }
+    static var backdrop: some View { AnywayBackdrop().ignoresSafeArea() }
 }
 
 extension View {
@@ -453,5 +453,44 @@ struct GuestControl: View {
         }
         .buttonStyle(.plain)
         .disabled(busy)
+    }
+}
+
+
+/// A quiet, neutral backdrop: soft daylight in light mode and a restrained graphite
+/// glow in dark mode. The gradients stay behind content; cards and controls remain
+/// readable and keep their native materials.
+private struct AnywayBackdrop: View {
+    @Environment(\\.colorScheme) private var scheme
+
+    var body: some View {
+        GeometryReader { geometry in
+            let dark = scheme == .dark
+            ZStack {
+                LinearGradient(
+                    colors: dark
+                        ? [Color(red: 0.075, green: 0.078, blue: 0.086),
+                           Color(red: 0.035, green: 0.037, blue: 0.043)]
+                        : [Color(red: 0.91, green: 0.915, blue: 0.925),
+                           Color(red: 0.985, green: 0.985, blue: 0.99),
+                           .white],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                RadialGradient(
+                    colors: dark
+                        ? [Color.white.opacity(0.055), .clear]
+                        : [Color.white.opacity(0.92), Color.white.opacity(0.25), .clear],
+                    center: UnitPoint(x: 0.78, y: 0.12),
+                    startRadius: 4,
+                    endRadius: geometry.size.width * (dark ? 0.9 : 1.15)
+                )
+                LinearGradient(
+                    colors: [.clear, dark ? Color.black.opacity(0.10) : Color.gray.opacity(0.035)],
+                    startPoint: .center,
+                    endPoint: .bottom
+                )
+            }
+        }
     }
 }
