@@ -35,7 +35,7 @@ struct SettingsTab: View {
                     row(AppearanceSettings(), "paintbrush.fill", .pink, "Appearance", "Light or dark, accent colour, app icon")
                     row(FontSettings(), "textformat", .indigo, "Fonts", "Chinese, Japanese and Korean text")
                     row(FAQTab(), "questionmark.circle.fill", .teal, "Help", "Answers to common problems")
-                    row(AboutSettings(), "info.circle.fill", .gray, "About Husk", "Version \(Bundle.main.version) · \(Bundle.main.commit)")
+                    row(AboutSettings(), "info.circle.fill", .gray, "About Anyway", "Version \(Bundle.main.version) · \(Bundle.main.commit)")
                 }
 
                 Section {
@@ -1059,9 +1059,16 @@ struct AboutSettings: View {
             Section {
                 VStack(spacing: 8) {
                     HuskMark(size: 84)
-                    Text("Husk").font(.title2.weight(.semibold))
-                    Text("Version \(Bundle.main.version)")
+                    Text("Anyway").font(.title2.weight(.semibold))
+                    Text("В любом случае")
                         .font(.subheadline).foregroundStyle(.secondary)
+                    Text("Version \(Bundle.main.version)")
+                        .font(.caption).foregroundStyle(.secondary)
+                    Link("TG: @kiIIsyou", destination: URL(string: "https://t.me/kiIIsyou")!)
+                        .font(.footnote.weight(.medium))
+                    Text("Husk")
+                        .font(.system(size: 9, weight: .regular, design: .rounded))
+                        .foregroundStyle(.tertiary)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 10)
@@ -1098,9 +1105,8 @@ struct AboutSettings: View {
                     Label("Open Console", systemImage: "terminal")
                 }
             } footer: {
-                Text("Husk runs unmodified Android APKs in a real Android system on your iPhone. "
-                   + "The console shows Husk's live log, the guest's serial output and QEMU's own "
-                   + "output — the three files any problem here is diagnosed from.")
+                Text("Anyway runs Android apps through its native compatibility layer or a real Android guest. "
+                   + "The console contains the diagnostic logs used to investigate problems.")
             }
         }
         .navigationTitle("About")
