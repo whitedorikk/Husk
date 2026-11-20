@@ -266,7 +266,7 @@ struct HomeView: View {
                 .id(jit.attachGeneration)
             }
             .huskHideScrollIndicators()
-            .background(Console.page.ignoresSafeArea())
+            .background(Theme.backdrop)
             .huskNavigationBar(hidden: true)
             .libraryDestinations()
         }
@@ -850,7 +850,7 @@ struct LibraryScreen: View {
             }
             .huskHideScrollIndicators()
             .huskDismissKeyboardOnScroll()
-            .background(Console.page.ignoresSafeArea())
+            .background(Theme.backdrop)
             .navigationTitle("Library")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
