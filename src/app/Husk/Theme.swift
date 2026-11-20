@@ -85,8 +85,6 @@ enum Theme {
 }
 
 extension View {
-    /// A container for content that is not a list row: a surface on the grouped page, as the system draws one.
-    @ViewBuilder
     /// Apple's native Liquid Glass on iOS 26+, with a restrained material fallback on older systems.
     /// Keep the shape explicit so cards, pills and round controls share the same glass language.
     @ViewBuilder
