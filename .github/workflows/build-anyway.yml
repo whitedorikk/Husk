@@ -41,7 +41,7 @@ jobs:
       - name: Install build tools
         run: |
           brew update
-          brew install meson ninja pkg-config xcodegen qemu
+          brew install meson ninja pkg-config xcodegen qemu cmake
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
@@ -59,6 +59,8 @@ jobs:
           cargo --version
 
       - name: Build Anyway IPA and TrollStore package
+        env:
+          DD: ${{ github.workspace }}/build/derived
         run: |
           chmod +x scripts/*.sh
           ./scripts/ci_build.sh build/Anyway.ipa
