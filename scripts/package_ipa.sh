@@ -147,6 +147,19 @@ for lib in libqemu-aarch64-softmmu.dylib libANGLE-shared.dylib libhuskps4.dylib;
     fi
 done
 
+# If a PS4 module was built, it must be embedded; if not, Android-only packaging is valid.
+PS4_SOURCE="$HUSK_ROOT/build/ios-arm64/lib/libhuskps4.dylib"
+if [ -f "$PS4_SOURCE" ]; then
+    if [ ! -f "$APP/Frameworks/libhuskps4.dylib" ]; then
+        echo "  MISSING  Frameworks/libhuskps4.dylib (PS4 module was built but not embedded)" >&2
+        rc=1
+    else
+        printf "  ok       %-28s %s\\n" "optional PS4 dylib embedded" "$(du -h "$APP/Frameworks/libhuskps4.dylib" | cut -f1)"
+    fi
+else
+    echo "  skipped  optional PS4 module (Android/QEMU build)"
+fi
+
 # Guest images, firmware, and blank disk seeds required by first launch.
 for f in vmlinuz-virt initramfs-virt husk-jit.js \
          edk2-aarch64-code.fd lineage-efi-vars-seed.fd lineage-vdb-seed.qcow2; do
