@@ -87,9 +87,22 @@ enum Theme {
 extension View {
     /// A container for content that is not a list row: a surface on the grouped page, as the system draws one.
     @ViewBuilder
+    /// Apple's native Liquid Glass on iOS 26+, with a restrained material fallback on older systems.
+    /// Keep the shape explicit so cards, pills and round controls share the same glass language.
+    @ViewBuilder
+    func anywayGlass<S: Shape>(in shape: S) -> some View {
+        if #available(iOS 26.0, *) {
+            self.glassEffect(.regular, in: shape)
+        } else {
+            self.background(.ultraThinMaterial, in: shape)
+                .overlay(shape.stroke(Color.white.opacity(0.12), lineWidth: 0.6))
+        }
+    }
+
     func huskCard<S: Shape>(_ shape: S, high: Bool = false) -> some View {
         self.background(high ? Theme.surfaceHigh : Theme.surface, in: shape)
             .snowCap()
+            .anywayGlass(in: shape)
     }
 
     func huskCard(high: Bool = false) -> some View {
@@ -132,6 +145,7 @@ struct PrimaryButtonStyle: ButtonStyle {
             .padding(.vertical, 15)
             .background(enabled ? Theme.accent : Theme.surfaceHigh,
                         in: RoundedRectangle(cornerRadius: 15, style: .continuous))
+            .anywayGlass(in: RoundedRectangle(cornerRadius: 15, style: .continuous))
             .opacity(configuration.isPressed ? 0.85 : 1)
             .scaleEffect(configuration.isPressed ? 0.985 : 1)
             .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
@@ -161,6 +175,7 @@ struct CircleButton: View {
                 .foregroundStyle(active ? .white : Theme.text)
                 .frame(width: 36, height: 36)
                 .background(active ? Theme.accent : Theme.surfaceHigh, in: Circle())
+                .anywayGlass(in: Circle())
         }
         .buttonStyle(.plain)
     }
@@ -198,6 +213,7 @@ struct Chip: View {
                 .foregroundStyle(selected ? .white : Theme.textDim)
                 .padding(.horizontal, 16).padding(.vertical, 8)
                 .background(selected ? Theme.accent : Theme.surfaceHigh, in: Capsule())
+                .anywayGlass(in: Capsule())
         }
         .buttonStyle(.plain)
     }
