@@ -339,9 +339,10 @@ struct HuskPageList<Content: View>: View {
         if #available(iOS 16, *) {
             List { Group { content }.listRowBackground(Console.card) }
                 .scrollContentBackground(.hidden)
-                .background(Console.page.ignoresSafeArea())
+                .background(Theme.backdrop)
         } else {
             List { content }
+                .background(Theme.backdrop)
         }
     }
 }
@@ -353,9 +354,10 @@ struct HuskForm<Content: View>: View {
         if #available(iOS 16, *) {
             Form { Group { content }.listRowBackground(Console.card) }
                 .scrollContentBackground(.hidden)
-                .background(Console.page.ignoresSafeArea())
+                .background(Theme.backdrop)
         } else {
             Form { content }
+                .background(Theme.backdrop)
         }
     }
 }
