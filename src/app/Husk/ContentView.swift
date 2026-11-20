@@ -41,6 +41,10 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
+            // Neutral, adaptive graphite backdrop behind Anyway's navigation and grouped pages.
+            Theme.backdrop
+                .zIndex(-1)
+
             // The tabs, and the guest on top of them.
             //
             // The guest is not a tab: HuskGLView owns the CAMetalLayer QEMU
