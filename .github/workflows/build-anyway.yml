@@ -16,9 +16,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: anyway-ios-${{ github.ref }}
-  cancel-in-progress: false
 
 jobs:
   build:
