@@ -11,7 +11,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Husk</string>
+	<string>Anyway</string>
+	<key>AnywayTagline</key>
+	<string>В любом случае</string>
+	<key>AnywayContact</key>
+	<string>TG: @kiIIsyou</string>
+	<key>HuskAttribution</key>
+	<string>Husk · TG: @kiIIsyou</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
