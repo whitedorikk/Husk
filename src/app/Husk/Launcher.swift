@@ -276,7 +276,7 @@ struct HomeView: View {
 
     private var topBar: some View {
         HStack(spacing: 10) {
-            Text("Husk")
+            Text("Anyway")
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .foregroundStyle(Console.text)
                 .fixedSize()
