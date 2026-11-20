@@ -151,13 +151,6 @@ targets:
         embed: true
         codeSign: true
         link: false
-      # The PS4 layer: Bachata-S4's core (branch husk) on husk-fex's FEXCore, as one dylib exporting husk_console_module_v1.
-      # Built by scripts/build_ps4_ios.sh. Embedded, not linked: it needs iOS 17.4 and is opened by path only there
-      # (PS4Store.moduleURL), by the console host (src/translation-layer-next/husk-console-host.c).
-      - framework: ../../build/ios-arm64/lib/libhuskps4.dylib
-        embed: true
-        codeSign: true
-        link: false
     preBuildScripts:
       - name: Stage guest image
         # The Phase 0 guest is far too large for git, so it is fetched rather than
@@ -265,6 +258,25 @@ targets:
           if [ -n "$EXPANDED_CODE_SIGN_IDENTITY" ] && [ "$CODE_SIGNING_ALLOWED" != "NO" ]; then
             codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none "$DST"
           fi
+        basedOnDependencyAnalysis: false
+      # PS4 is an optional module. Android/QEMU builds do not need its external
+      # Bachata-S4 + FEXCore source trees. If a local/CI build produced the dylib,
+      # embed and sign it; otherwise PS4Store.available remains false.
+      - name: Embed optional PS4 module
+        script: |
+          set -e
+          SRC="$SRCROOT/../../build/ios-arm64/lib/libhuskps4.dylib"
+          DST="$TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/libhuskps4.dylib"
+          if [ ! -f "$SRC" ]; then
+            echo "PS4 module not present; continuing without PS4 support"
+            exit 0
+          fi
+          mkdir -p "$(dirname "$DST")"
+          cp "$SRC" "$DST"
+          if [ -n "$EXPANDED_CODE_SIGN_IDENTITY" ] && [ "$CODE_SIGNING_ALLOWED" != "NO" ]; then
+            codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --timestamp=none "$DST"
+          fi
+          echo "Embedded optional PS4 module: $DST"
         basedOnDependencyAnalysis: false
 
   # Built-in StikJIT's debugger (docs/06-built-in-jit.md). A process cannot
