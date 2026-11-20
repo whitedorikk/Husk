@@ -55,7 +55,6 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(HUSK_BUNDLE_IDENTIFIER)
-        PRODUCT_NAME: Anyway
         # Set your team here rather than in Xcode's UI: this file is the source of
         # truth, and `xcodegen generate` overwrites Husk.xcodeproj.
         # DEVELOPMENT_TEAM: XXXXXXXXXX
