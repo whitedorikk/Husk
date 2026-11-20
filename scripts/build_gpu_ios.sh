@@ -40,6 +40,19 @@ fetch virgl https://github.com/utmapp/virglrenderer.git "$VIRGL_COMMIT"
 
 export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
 
+# virglrenderer's Meson introspection imports PyYAML using the runner's
+# Homebrew Python. ci_build installs it before entering this script.
+python3 -c 'import yaml' || {
+    echo "PyYAML is required by virglrenderer (python3 -m pip install pyyaml)" >&2
+    exit 1
+}
+
+# Apple Clang does not recognize GCC's enum-int-mismatch warning option.
+# Suppress only unknown-warning-option diagnostics so Meson's feature probes
+# can continue; real compiler errors remain fatal.
+export CFLAGS="${CFLAGS:-} -Wno-unknown-warning-option"
+export CXXFLAGS="${CXXFLAGS:-} -Wno-unknown-warning-option"
+
 echo "==> libepoxy"
 # epoxy dlopens EGL by a hardcoded per-platform name, and on iOS that is
 # "EGL.framework/EGL". UTM satisfies it by packaging ANGLE as a framework; Husk
@@ -73,7 +86,7 @@ echo "==> virglrenderer (render server in thread mode)"
   $MESON setup _build --cross-file "$HUSK_ROOT/build/ios-arm64/cross-ios-darwin.meson" \
       --prefix "$PREFIX" --default-library=static \
       -Dtests=false -Dcheck-gl-errors=false -Dvenus=false -Dvulkan-dload=false \
-      -Drender-server-mode=thread
+      -Drender-server-mode=thread -Dwerror=false
   $NINJA -C _build install ) > "$LOGS/virgl.log" 2>&1 \
   || { echo "virglrenderer failed:" >&2; grep -a "error:\|FAILED:\|ERROR" "$LOGS/virgl.log" | head -10 >&2; exit 1; }
 echo "    $(ls -lh "$PREFIX/lib/libvirglrenderer.a" | awk '{print $5}')"
