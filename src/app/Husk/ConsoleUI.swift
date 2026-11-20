@@ -12,14 +12,14 @@ enum Console {
         Color(uiColor: UIColor { $0.userInterfaceStyle == .dark ? dark : light })
     }
 
-    /// The page: Husk's deep navy, or near-white.
-    static let page = adaptive(dark: UIColor(red: 0.035, green: 0.047, blue: 0.098, alpha: 1), light: UIColor(white: 0.965, alpha: 1))
-    /// Cards and wells on the page.
-    static let card = adaptive(dark: UIColor(red: 0.075, green: 0.094, blue: 0.161, alpha: 1), light: UIColor(white: 0.905, alpha: 1))
-    /// One step up from a card: buttons beside Play.
-    static let raised = adaptive(dark: UIColor(red: 0.110, green: 0.133, blue: 0.220, alpha: 1), light: UIColor(white: 0.865, alpha: 1))
-    /// A card's outline on the navy page.
-    static let outline = adaptive(dark: UIColor(red: 0.20, green: 0.24, blue: 0.40, alpha: 0.55), light: UIColor(white: 0, alpha: 0.06))
+    /// Neutral graphite page in dark mode; a soft silver page in light mode.
+    static let page = adaptive(dark: UIColor(red: 0.075, green: 0.078, blue: 0.086, alpha: 1), light: UIColor(white: 0.945, alpha: 1))
+    /// Quiet surfaces, kept close to the page rather than tinted blue.
+    static let card = adaptive(dark: UIColor(red: 0.115, green: 0.120, blue: 0.132, alpha: 1), light: UIColor(white: 0.985, alpha: 1))
+    /// Raised controls: a small, clear step above the card.
+    static let raised = adaptive(dark: UIColor(red: 0.165, green: 0.172, blue: 0.188, alpha: 1), light: UIColor(white: 0.915, alpha: 1))
+    /// A restrained neutral outline.
+    static let outline = adaptive(dark: UIColor(white: 1, alpha: 0.12), light: UIColor(white: 0, alpha: 0.07))
     /// An unselected chip.
     static let chip = adaptive(dark: UIColor(white: 1, alpha: 0.12), light: UIColor(white: 0, alpha: 0.07))
     static let hairline = adaptive(dark: UIColor(white: 1, alpha: 0.08), light: UIColor(white: 0, alpha: 0.08))
