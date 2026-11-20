@@ -20,7 +20,7 @@ permissions:
 jobs:
   build:
     # The build scripts compile native ARM64 iOS dependencies and use Xcode.
-    runs-on: macos-15
+    runs-on: xcode-27
     timeout-minutes: 360
 
     steps:
